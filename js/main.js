@@ -10,7 +10,13 @@ const promotionToggleBtn = document.querySelector(".toggle-promotion");
 
 const spyEls = document.querySelectorAll("section.scroll-spy");
 
+const thisYear = document.querySelector(".this-year");
+
+const toTopEl = document.querySelector("#to-top");
+
 let isHidePromotion = false;
+
+thisYear.textContent = new Date().getFullYear();
 
 searchEl.addEventListener("click", () => {
   searchInputEl.focus();
@@ -37,15 +43,29 @@ window.addEventListener(
         opacity: 0,
         display: "none",
       });
+      // 버튼 보이기
+      gsap.to("#to-top", 0.2, {
+        x: 0,
+      });
     } else {
       // 배지 보이기
       gsap.to(badgeEl, 0.6, {
         opacity: 1,
         display: "block",
       });
+      // 버튼 숨기기
+      gsap.to("#to-top", 0.2, {
+        x: 100,
+      });
     }
   }, 300)
 );
+
+toTopEl.addEventListener("click", () => {
+  gsap.to(window, 0.7, {
+    scrollTo: 0,
+  });
+});
 
 fadeEls.forEach((fadeEl, index) => {
   gsap.to(fadeEl, 1, {
@@ -76,6 +96,17 @@ new Swiper(".promotion .swiper", {
   navigation: {
     prevEl: ".promotion .swiper-prev",
     nextEl: ".promotion .swiper-next",
+  },
+});
+
+new Swiper(".awards .swiper", {
+  autoplay: true,
+  loop: true,
+  spaceBetween: 30,
+  slidesPerView: 5,
+  navigation: {
+    prevEl: ".awards .swiper-prev",
+    nextEl: ".awards .swiper-next",
   },
 });
 
