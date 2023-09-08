@@ -7,6 +7,9 @@ const fadeEls = document.querySelectorAll(".visual .fade-in");
 
 const promotionEl = document.querySelector(".promotion");
 const promotionToggleBtn = document.querySelector(".toggle-promotion");
+
+const spyEls = document.querySelectorAll("section.scroll-spy");
+
 let isHidePromotion = false;
 
 searchEl.addEventListener("click", () => {
@@ -85,4 +88,40 @@ promotionToggleBtn.addEventListener("click", () => {
     // 보임 처리
     promotionEl.classList.remove("hide");
   }
+});
+
+// 범위 랜덤 함수(소수점 2자리까지)
+const random = (min, max) => {
+  // `.toFixed()`를 통해 반환된 문자 데이터를,
+  // `parseFloat()`을 통해 소수점을 가지는 숫자 데이터로 변환
+  return parseFloat((Math.random() * (max - min) + min).toFixed(2));
+};
+
+const floatObject = (selector, delay, size) => {
+  // gsap.to(요소, 시간, 옵션);
+  gsap.to(
+    selector,
+    random(1.5, 2.5), // 애니메이션 동작 시간
+    {
+      // 옵션
+      y: size,
+      repeat: -1,
+      yoyo: true,
+      ease: Power1.inOut,
+      delay: random(0, delay),
+    }
+  );
+};
+
+floatObject(".floating1", 1, 15);
+floatObject(".floating2", 0.5, 15);
+floatObject(".floating3", 1.5, 20);
+
+spyEls.forEach((spyEl) => {
+  new ScrollMagic.Scene({
+    triggerElement: spyEl, // 보여짐 여부를 감시할 요소를 지정
+    triggerHook: 0.8,
+  })
+    .setClassToggle(spyEl, "show")
+    .addTo(new ScrollMagic.Controller());
 });
